@@ -1,50 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, SafeAreaView} from 'react-native';
-import Buffer from 'buffer';
+import {FlatList, SafeAreaView} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import ListItem from '../components/listItem/ListItem';
+import {fetchAllCategories} from '../util/serviceUtil';
+import {CategoryObject} from '../types/spotify';
 
-const Home = ({navigation}) => {
-  const [categories, setCategories] = useState([]);
+import {RootStackParamList} from '../types/app';
+
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+
+type HomeProps = {
+  navigation: HomeScreenNavigationProp;
+};
+
+const Home: React.FC<HomeProps> = ({navigation}) => {
+  const [categories, setCategories] = useState<CategoryObject[]>([]);
 
   useEffect(() => {
-    const clientId = '8ec49d2d8ee94bb499ffe6777a3b7754';
-    const clientSecret = 'a26d689065cf4d78aba42b77312e53e5';
-    const encodedAuth = new Buffer.Buffer(
-      `${clientId}:${clientSecret}`,
-    ).toString('base64');
-    let accessToken: string;
-
-    fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${encodedAuth}`,
-      },
-      body: 'grant_type=client_credentials',
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        accessToken = res.access_token;
-      })
-      .then(() => {
-        fetch('https://api.spotify.com/v1/browse/categories?country=US', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            console.log('response received!');
-            setCategories(res.categories.items);
-          });
-      });
+    fetchAllCategories().then((res) => {
+      setCategories(res.categories.items);
+    });
   }, []);
 
-  const renderItem = ({
-    item,
-  }: {
-    item: {id: string; name: string; icons: []};
-  }) => {
+  const renderItem = ({item}: {item: CategoryObject}) => {
     return (
       <ListItem
         id={item.id}

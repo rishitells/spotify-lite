@@ -1,53 +1,47 @@
 import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, Text, View} from 'react-native';
-import Buffer from 'buffer';
+import {getPlaylists} from '../util/serviceUtil';
 
-const Details = ({route, navigation}) => {
+import {RouteProp} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+
+import {RootStackParamList} from '../types/app';
+
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
+type DetailsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Details'
+>;
+
+type DetailProps = {
+  route: ProfileScreenRouteProp;
+  navigation: DetailsScreenNavigationProp;
+};
+
+const Details: React.FC<DetailProps> = ({route, navigation}) => {
   const [playlists, setPlaylists] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const {id: categoryId} = route.params;
 
-  console.log('CATEGORY ID = ', categoryId);
-
   useEffect(() => {
-    const clientId = '8ec49d2d8ee94bb499ffe6777a3b7754';
-    const clientSecret = 'a26d689065cf4d78aba42b77312e53e5';
-    const encodedAuth = new Buffer.Buffer(
-      `${clientId}:${clientSecret}`,
-    ).toString('base64');
-    let accessToken: string;
-
-    fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${encodedAuth}`,
-      },
-      body: 'grant_type=client_credentials',
-    })
-      .then((res) => res.json())
+    getPlaylists(categoryId)
       .then((res) => {
-        accessToken = res.access_token;
+        setPlaylists(res.playlists.items);
+        setIsLoading(false);
       })
-      .then(() => {
-        fetch(
-          `https://api.spotify.com/v1/browse/categories/${categoryId}/playlists`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
-        )
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(
-              'response received!',
-              JSON.stringify(res.playlists.items),
-            );
-            setPlaylists(res.playlists.items);
-            setIsLoading(false);
-          });
+      .catch((err) => {
+        setError(err);
       });
   }, [categoryId]);
+
+  if (error) {
+    return (
+      <View>
+        <Text>Sorry, no playlists were found!</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={{flex: 1}}>

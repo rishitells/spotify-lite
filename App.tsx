@@ -7,11 +7,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Home from './src/screens/Home';
 import Details from './src/screens/Details';
 
+import {RootStackParamList} from './src/types/app';
+
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 declare const global: {HermesInternal: null | {}};
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (

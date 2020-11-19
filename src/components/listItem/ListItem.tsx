@@ -1,10 +1,11 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, Image, Text, View, TouchableHighlight} from 'react-native';
+import {ImageObject} from '../../types/spotify';
 
 type ListItemProps = {
   id: string;
   title: string;
-  icon: string;
+  icon: ImageObject;
   handleClick: (id: string) => void;
 };
 
