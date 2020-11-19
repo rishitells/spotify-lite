@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   },
   artist: {
     fontSize: 12,
+    textTransform: 'capitalize',
   },
 });
 
@@ -43,7 +44,7 @@ const Song: React.FC<SongProps> = ({title, cover, artists}) => {
       />
       <View style={styles.songInformation}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.artist}>{artists.join(',')}</Text>
+        <Text style={styles.artist}>{artists.join(', ')}</Text>
       </View>
     </View>
   );

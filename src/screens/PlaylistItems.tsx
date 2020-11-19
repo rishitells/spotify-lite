@@ -20,6 +20,7 @@ type DetailProps = {
 const styles = StyleSheet.create({
   playlistCover: {height: 200, width: 200, alignSelf: 'center', margin: 8},
   playlistDescription: {alignSelf: 'center'},
+  search: {height: 100, backgroundColor: '#bbbfca', padding: 12},
 });
 
 const PlaylistItems: React.FC<DetailProps> = ({route}) => {
@@ -52,29 +53,32 @@ const PlaylistItems: React.FC<DetailProps> = ({route}) => {
   }
 
   return (
-    <ScrollView>
-      <Image style={styles.playlistCover} source={{uri: playlistCover}} />
-      <Text style={styles.playlistDescription}>{playlistDescription}</Text>
-      <View>
-        {!isLoading &&
-          playlistItems.map((playlistItem) => {
-            if (!playlistItem.track) {
-              return null;
-            }
+    <>
+      <ScrollView>
+        <Image style={styles.playlistCover} source={{uri: playlistCover}} />
+        <Text style={styles.playlistDescription}>{playlistDescription}</Text>
+        <View>
+          {!isLoading &&
+            playlistItems.map((playlistItem) => {
+              console.log('playlistItem -->', playlistItem);
+              if (!playlistItem.track) {
+                return null;
+              }
 
-            return (
-              <Song
-                key={playlistItem.track.id}
-                title={playlistItem.track.name}
-                cover={playlistItem.track.album.images[0]}
-                artists={playlistItem.track.album.artists.map(
-                  (artist) => artist.name,
-                )}
-              />
-            );
-          })}
-      </View>
-    </ScrollView>
+              return (
+                <Song
+                  key={playlistItem.track.id}
+                  title={playlistItem.track.name}
+                  cover={playlistItem.track.album.images[0]}
+                  artists={playlistItem.track.album.artists.map(
+                    (artist) => artist.name,
+                  )}
+                />
+              );
+            })}
+        </View>
+      </ScrollView>
+    </>
   );
 };
 
