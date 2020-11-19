@@ -20,6 +20,7 @@ export type PlaylistObjectSimplified = {
   id: string;
   images: ImageObject[];
   name: string;
+  description: string;
 };
 
 export type PagingObject = {
@@ -32,5 +33,15 @@ export type PagingObject = {
   total: number;
 };
 
+export type TrackObject = {
+  id: string;
+  name: string;
+};
+
+export type PlaylistTrackObject = {
+  track: TrackObject;
+};
+
 export type CategoryObjectWithPaging = CategoryObject & PagingObject;
 export type PlaylistObjectWithPaging = PlaylistObjectSimplified & PagingObject;
+export type PlaylistTrackObjectWithPaging = PlaylistTrackObject & PagingObject;

@@ -2,6 +2,7 @@ import Buffer from 'buffer';
 import {
   CategoryObjectWithPaging,
   PlaylistObjectWithPaging,
+  PlaylistTrackObjectWithPaging,
 } from '../types/spotify';
 
 const clientId = '8ec49d2d8ee94bb499ffe6777a3b7754';
@@ -49,4 +50,16 @@ export const getPlaylists = async (
       },
     },
   ).then((res) => res.json());
+};
+
+export const getPlaylistItems = async (
+  playlistId: string,
+): Promise<PlaylistTrackObjectWithPaging> => {
+  const accessToken = await getAccessToken();
+
+  return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => res.json());
 };

@@ -12,9 +12,16 @@ type ListItemProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    marginTop: 2,
+    padding: 2,
+    backgroundColor: '#fbf6f0',
+  },
+  image: {
+    width: 100,
+    height: 100,
   },
   text: {
     fontSize: 24,
@@ -29,19 +36,10 @@ const ListItem: React.FC<ListItemProps> = ({id, title, icon, handleClick}) => {
 
   return (
     <TouchableHighlight onPress={handleItemClick}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginTop: 2,
-          padding: 2,
-          backgroundColor: '#fbf6f0',
-        }}>
+      <View style={styles.container}>
         <Text style={styles.text}>{title}</Text>
         <Image
-          style={{width: 100, height: 100}}
+          style={styles.image}
           source={{
             uri: icon.url,
           }}

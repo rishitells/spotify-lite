@@ -29,7 +29,7 @@ const Home: React.FC<HomeProps> = ({navigation}) => {
         id={item.id}
         icon={item.icons[0]}
         handleClick={(id) => {
-          navigation.navigate('Details', {
+          navigation.navigate('Playlists', {
             id,
           });
         }}
