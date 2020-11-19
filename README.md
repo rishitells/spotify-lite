@@ -6,7 +6,6 @@ It's a React Native application that uses Spotify Web API(s) to fetch music cate
 
 Development Notes: 
 - I did not use AsyncStorage for storing token as it would be too much of manual setup to run it on other development machine.
-- Didn’t get time to implement search/filter functionality, but can do it as an enhancement later
 
 ## 2. How to run the aplication
 1. Clone the repository ("git clone https://github.com/rishitells/spotify-lite.git")
