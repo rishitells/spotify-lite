@@ -83,6 +83,8 @@ const Playlists: React.FC<DetailProps> = ({route, navigation}) => {
                 onPress={() => {
                   navigation.navigate('PlaylistItems', {
                     id: playlist.id,
+                    cover: playlist.images[0].url,
+                    description: playlist.description,
                   });
                 }}>
                 <View style={styles.playlistItem}>

@@ -33,9 +33,20 @@ export type PagingObject = {
   total: number;
 };
 
+export type ArtistObject = {
+  id: string;
+  name: string;
+};
+
+export type AlbumObject = {
+  images: ImageObject[];
+  artists: ArtistObject[];
+};
+
 export type TrackObject = {
   id: string;
   name: string;
+  album: AlbumObject;
 };
 
 export type PlaylistTrackObject = {

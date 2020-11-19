@@ -1,18 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {getPlaylistItems} from '../util/serviceUtil';
 
 import {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../types/app';
-import {PlaylistTrackObject, TrackObject} from '../types/spotify';
+import {PlaylistTrackObject} from '../types/spotify';
+import Song from '../components/listItem/Song';
 
 type PlaylistItemsScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -29,12 +23,15 @@ const PlaylistItems: React.FC<DetailProps> = ({route}) => {
   const [playlistItems, setPlaylistItems] = useState<PlaylistTrackObject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const {id: playlistId} = route.params;
+  const {
+    id: playlistId,
+    cover: playlistCover,
+    description: playlistDescription,
+  } = route.params;
 
   useEffect(() => {
     getPlaylistItems(playlistId)
       .then((res) => {
-        console.log('PLAYLIST ITEMS -->', res);
         setPlaylistItems(res.items);
         setIsLoading(false);
       })
@@ -53,10 +50,24 @@ const PlaylistItems: React.FC<DetailProps> = ({route}) => {
 
   return (
     <ScrollView>
+      <Image
+        style={{height: 200, width: 200, alignSelf: 'center', margin: 8}}
+        source={{uri: playlistCover}}
+      />
+      <Text style={{alignSelf: 'center'}}>{playlistDescription}</Text>
       <View>
         {!isLoading &&
           playlistItems.map((playlistItem) => {
-            return <Text>{playlistItem.track.name}</Text>;
+            return (
+              <Song
+                key={playlistItem.track.id}
+                title={playlistItem.track.name}
+                cover={playlistItem.track.album.images[0]}
+                artists={playlistItem.track.album.artists.map(
+                  (artist) => artist.name,
+                )}
+              />
+            );
           })}
       </View>
     </ScrollView>
