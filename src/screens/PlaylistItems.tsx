@@ -17,7 +17,10 @@ type DetailProps = {
   route: PlaylistItemsScreenRouteProp;
 };
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  playlistCover: {height: 200, width: 200, alignSelf: 'center', margin: 8},
+  playlistDescription: {alignSelf: 'center'},
+});
 
 const PlaylistItems: React.FC<DetailProps> = ({route}) => {
   const [playlistItems, setPlaylistItems] = useState<PlaylistTrackObject[]>([]);
@@ -50,14 +53,15 @@ const PlaylistItems: React.FC<DetailProps> = ({route}) => {
 
   return (
     <ScrollView>
-      <Image
-        style={{height: 200, width: 200, alignSelf: 'center', margin: 8}}
-        source={{uri: playlistCover}}
-      />
-      <Text style={{alignSelf: 'center'}}>{playlistDescription}</Text>
+      <Image style={styles.playlistCover} source={{uri: playlistCover}} />
+      <Text style={styles.playlistDescription}>{playlistDescription}</Text>
       <View>
         {!isLoading &&
           playlistItems.map((playlistItem) => {
+            if (!playlistItem.track) {
+              return null;
+            }
+
             return (
               <Song
                 key={playlistItem.track.id}

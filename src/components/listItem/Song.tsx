@@ -1,5 +1,5 @@
-import React, {useCallback} from 'react';
-import {StyleSheet, Image, Text, View, TouchableHighlight} from 'react-native';
+import React from 'react';
+import {StyleSheet, Image, Text, View} from 'react-native';
 import {ImageObject} from '../../types/spotify';
 
 type SongProps = {
