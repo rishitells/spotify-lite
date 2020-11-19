@@ -4,7 +4,11 @@ It's a React Native application that uses Spotify Web API(s) to fetch music cate
 - Playlists - show a grid of playlists under a selected category
 - PlaylistItems - shows the songs belonging to the playlist
 
+Development Notes: 
+- I did not use AsyncStorage for storing token as it would be too much of manual setup to run it on other development machine.
+- Didn’t get time to implement search/filter functionality, but can do it as an enhancement later
+
 ## 2. How to run the aplication
 1. Clone the repository ("git clone https://github.com/rishitells/spotify-lite.git")
 2. Check into project root directory via command line and run “yarn install” (please make sure you have Node installed in your system and have yarn package manager, to install yarn, run “npm install -g yarn”)
-3. Set up local development environment - Please use the React native official guide for setting up the local environment for running this application. https://reactnative.dev/docs/environment-setup. Skip the “Creating a new application” section as we already have an application. Let me know if you face any issue in setting up.
+3. Set up local development environment - Please use the React native official guide for setting up the local environment for running this application -> https://reactnative.dev/docs/environment-setup. Please Skip the “Creating a new application” section as we already have an application. Let me know if you face any issue in setting up.
