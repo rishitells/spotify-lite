@@ -1,91 +1,31 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
+import React from 'react';
+import {StyleSheet, StatusBar} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 
-import React, {useEffect, useState} from 'react';
-import Buffer from 'buffer';
-import {SafeAreaView, StyleSheet, FlatList, StatusBar} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-import ListItem from './src/components/listItem/ListItem';
+import Home from './src/screens/Home';
+import Details from './src/screens/Details';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 declare const global: {HermesInternal: null | {}};
 
+const Stack = createStackNavigator();
+
 const App = () => {
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const clientId = '8ec49d2d8ee94bb499ffe6777a3b7754';
-    const clientSecret = 'a26d689065cf4d78aba42b77312e53e5';
-    const encodedAuth = new Buffer.Buffer(
-      `${clientId}:${clientSecret}`,
-    ).toString('base64');
-    let accessToken: string;
-
-    fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${encodedAuth}`,
-      },
-      body: 'grant_type=client_credentials',
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        accessToken = res.access_token;
-      })
-      .then(() => {
-        fetch('https://api.spotify.com/v1/browse/categories', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            setCategories(res.categories.items);
-          });
-      });
-  }, []);
-
-  const renderItem = ({item}: {item: {id: string; name: string}}) => {
-    console.log('AAAAAA', item);
-    return <ListItem title={item.name} />;
-  };
-
   return (
-    <>
+    <NavigationContainer>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <FlatList
-          data={categories}
-          renderItem={renderItem}
-          keyExtractor={(item: {id: string}) => item.id}
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{title: 'Categories'}}
         />
-        {/*<ScrollView*/}
-        {/*  contentInsetAdjustmentBehavior="automatic"*/}
-        {/*  style={styles.scrollView}>*/}
-        {/*  <Text style={styles.sectionTitle}>Categories</Text>*/}
-        {/*  {global.HermesInternal == null ? null : (*/}
-        {/*    <View style={styles.engine}>*/}
-        {/*      <Text style={styles.footer}>Engine: Hermes</Text>*/}
-        {/*    </View>*/}
-        {/*  )}*/}
-        {/*  <View style={styles.body}>*/}
-        {/*    <View style={styles.sectionContainer}>*/}
-        {/*      <Text style={styles.sectionTitle}>Step One</Text>*/}
-        {/*      {categories.map((category) => {*/}
-        {/*        return <Text style={styles.highlight}>{category.name}</Text>;*/}
-        {/*      })}*/}
-        {/*    </View>*/}
-        {/*  </View>*/}
-        {/*</ScrollView>*/}
-      </SafeAreaView>
-    </>
+        <Stack.Screen name="Details" component={Details} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
