@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
   },
+  sorryText: {fontSize: 18, padding: 24, alignSelf: 'center'},
   image: {width: 140, height: 140},
   name: {fontSize: 18, paddingVertical: 8},
   description: {fontSize: 14},
@@ -67,7 +68,7 @@ const Playlists: React.FC<DetailProps> = ({route, navigation}) => {
   if (error) {
     return (
       <View>
-        <Text>Sorry, no playlists were found!</Text>
+        <Text style={styles.sorryText}>Sorry, no playlists were found!</Text>
       </View>
     );
   }
@@ -77,6 +78,10 @@ const Playlists: React.FC<DetailProps> = ({route, navigation}) => {
       <View style={styles.playlistWrapper}>
         {!isLoading &&
           playlists.map((playlist) => {
+            if (!playlist) {
+              return null;
+            }
+
             return (
               <TouchableHighlight
                 key={playlist.id}

@@ -60,7 +60,6 @@ const PlaylistItems: React.FC<DetailProps> = ({route}) => {
         <View>
           {!isLoading &&
             playlistItems.map((playlistItem) => {
-              console.log('playlistItem -->', playlistItem);
               if (!playlistItem.track) {
                 return null;
               }

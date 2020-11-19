@@ -25,7 +25,11 @@ const App = () => {
           options={{title: 'Categories'}}
         />
         <Stack.Screen name="Playlists" component={Playlists} />
-        <Stack.Screen name="PlaylistItems" component={PlaylistItems} />
+        <Stack.Screen
+          name="PlaylistItems"
+          component={PlaylistItems}
+          options={{title: 'Songs'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
